@@ -16,7 +16,9 @@ class ProgettoController extends Controller
      */
     public function index()
     {
-        //
+        $progetti = Progetto::all();
+        return view('admin.progetti.index', compact('progetti'));
+
     }
 
     /**
