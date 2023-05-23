@@ -20,14 +20,14 @@
                     <td>{{ $progetto->slug }}</td>
                     <td>
                         <a class="btn btn-primary" href="{{ route('admin.progetti.show', $progetto->slug) }}">VEDI</a>
-                        {{-- <a class="btn btn-warning" href="{{ route('admin.progetti.edit', $progetto->slug) }}">MODIFICA</a>
+                        <a class="btn btn-warning" href="{{ route('admin.progetti.edit', $progetto->slug) }}">MODIFICA</a>
 
                         <form class="form_delete_post"
                             action="{{ route('admin.progetti.destroy', ['progetto' => $progetto->slug]) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Elimina</button>
-                        </form> --}}
+                        </form>
 
 
                     </td>
