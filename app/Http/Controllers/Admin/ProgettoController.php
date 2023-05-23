@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProgettoRequest;
+use App\Http\Requests\UpdateProgettoRequest;
 use App\Models\Progetto;
 use Illuminate\Http\Request;
 
@@ -37,9 +39,22 @@ class ProgettoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProgettoRequest $request)
     {
-        //
+        $validated_data = $request->validated();
+
+        $validated_data['slug'] = Progetto::generateSlug($request->title);
+
+
+        $checkProgetto = Progetto::where('slug', $validated_data['slug'])->first();
+        if ($checkProgetto) {
+            return back()->withInput()->withErrors(['slug' => 'Impossibile creare lo slug per questo post, cambia il titolo']);
+        }
+
+
+        $newProgetto = Progetto::create($validated_data);
+
+        return redirect()->route('admin.progetti.show', ['post' => $newProgetto->slug])->with('status', 'Post creato con successo!');
     }
 
     /**
@@ -61,7 +76,7 @@ class ProgettoController extends Controller
      */
     public function edit(Progetto $progetto)
     {
-        //
+        return view('admin.progetti.edit', compact('progetto'));
     }
 
     /**
@@ -71,9 +86,20 @@ class ProgettoController extends Controller
      * @param  \App\Models\Progetto  $progetto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Progetto $progetto)
+    public function update(UpdateProgettoRequest $request, Progetto $progetto)
     {
-        //
+        $validated_data = $request->validated();
+        $validated_data['slug'] = Progetto::generateSlug($request->title);
+
+        $checkProgetto = Progetto::where('slug', $validated_data['slug'])->where('id', '<>', $progetto->id)->first();
+
+        if ($checkProgetto) {
+            return back()->withInput()->withErrors(['slug' => 'Impossibile creare lo slug']);
+        }
+
+        $progetto->update($validated_data);
+        return redirect()->route('admin.progetti.show', ['post' => $progetto->slug])->with('status', 'Post modificato con successo!');
+
     }
 
     /**
