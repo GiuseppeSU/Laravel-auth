@@ -50,7 +50,7 @@ class ProgettoController extends Controller
      */
     public function show(Progetto $progetto)
     {
-        //
+        return view('admin.progetti.show', compact('progetto'));
     }
 
     /**
