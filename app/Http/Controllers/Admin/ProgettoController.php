@@ -110,6 +110,7 @@ class ProgettoController extends Controller
      */
     public function destroy(Progetto $progetto)
     {
-        //
+        $progetto->delete();
+        return redirect()->route('admin.progetti.index');
     }
 }
