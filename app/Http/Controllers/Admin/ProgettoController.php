@@ -98,7 +98,7 @@ class ProgettoController extends Controller
         }
 
         $progetto->update($validated_data);
-        return redirect()->route('admin.progetti.show', ['post' => $progetto->slug])->with('status', 'Post modificato con successo!');
+        return redirect()->route('admin.progetti.show', ['progetto' => $progetto->slug])->with('status', 'Post modificato con successo!');
 
     }
 
